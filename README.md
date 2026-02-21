@@ -100,7 +100,7 @@ graph TD
 
 1. **Clone and Setup**
    ```bash
-   git clone https://github.com/your-username/colab.git
+   git clone https://github.com/PrShivashish/colab.git
    cd colab
    ```
 
