@@ -1,0 +1,167 @@
+/* Theme Variables - Defaults handled by JS, but structured here for reference */
+:root {
+  --color-background: #18181b;
+  --color-foreground: #ffffff;
+  --blob-blend-mode: screen;
+  --aurora-blend-mode: screen;
+  --blob-opacity: 0.3;
+}
+
+/* Smooth transitions for all themeable properties */
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================
+   THEME: Adrenaline (GenZ / Cyberpunk)
+   ========================================= */
+.theme-adrenaline {
+  --glitch-offset: 2px;
+  --blob-blend-mode: hard-light;
+  --aurora-blend-mode: overlay;
+  --blob-opacity: 0.5;
+}
+
+/* Background Grid Effect */
+.theme-adrenaline body {
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 153, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+/* Neon Glows */
+.theme-adrenaline .neon-border {
+  box-shadow: 0 0 5px var(--color-accent), inset 0 0 5px var(--color-accent);
+}
+
+.theme-adrenaline .neon-text {
+  text-shadow: 0 0 5px var(--color-foreground), 0 0 10px var(--color-accent);
+}
+
+/* Glitch Text Animation */
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.theme-adrenaline .glitch-hover:hover {
+  animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  color: var(--color-accent);
+}
+
+/* =========================================
+   THEME: Light (Clean / Minimal)
+   ========================================= */
+.theme-light body {
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px;
+  --blob-blend-mode: multiply;
+  --aurora-blend-mode: multiply;
+  --blob-opacity: 0.5;
+}
+
+/* Enhancing Light Theme Contrast & Depth */
+.theme-light .glass-card {
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.theme-light .monaco-editor .margin {
+  border-right: 1px solid var(--color-border);
+}
+
+/* Light Theme Scrollbar - Darker Thumb for Visibility */
+.theme-light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  /* Zinc-300 */
+  border: 2px solid #ffffff;
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* =========================================
+     Scrollbar Styles
+     ========================================= */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-backgroundSecondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-borderLight);
+  border-radius: 4px;
+  border: 2px solid var(--color-backgroundSecondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* =========================================
+     Monaco Editor Overrides
+     ========================================= */
+.monaco-editor {
+  padding-top: 8px;
+}
+
+.monaco-editor .margin {
+  background-color: var(--editor-background) !important;
+}
+
+.monaco-editor-background {
+  background-color: var(--editor-background) !important;
+}
+
+/* Selection & Highlights */
+.monaco-editor .selected-text {
+  background-color: var(--editor-selection) !important;
+}
+
+.monaco-editor .current-line {
+  border: none !important;
+  background-color: var(--editor-lineHighlight) !important;
+}
+
+.theme-adrenaline .monaco-editor .current-line {
+  border: 1px solid var(--color-accent) !important;
+  background-color: rgba(204, 255, 0, 0.05) !important;
+  box-shadow: 0 0 10px rgba(204, 255, 0, 0.1);
+}
