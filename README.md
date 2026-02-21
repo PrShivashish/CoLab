@@ -1,7 +1,7 @@
 # 🚀 CoLab: Real-Time Collaborative Coding Workspace
 
 <div align="center">
-  <img src="colab_hero_banner.png" width="100%" alt="CoLab Hero Banner">
+  <img src="frontend/src/colab_hero_banner.png" width="100%" alt="CoLab Hero Banner">
   
   <p align="center">
     <strong>A premium, real-time collaborative development environment designed for modern teams.</strong>
