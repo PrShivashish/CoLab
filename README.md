@@ -43,7 +43,7 @@
 - **Debug Assistant**: Instant root-cause analysis for runtime errors.
 
 <div align="center">
-  <img src="colab_workstation.png" width="80%" alt="CoLab Workstation Illustration">
+  <img src="frontend/src/colab_workstation.png" width="80%" alt="CoLab Workstation Illustration">
 </div>
 
 ---
