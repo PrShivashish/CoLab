@@ -2,7 +2,7 @@
 // In production, use Redis for distributed rate limiting
 
 class RateLimiter {
-    constructor() {
+    constructor() { 
         // Store: { userId/ip: { minute: count, day: count, lastReset: timestamp } }
         this.store = new Map();
         this.RPM_LIMIT = 15; // Gemini free tier: 15 requests per minute
