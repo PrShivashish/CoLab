@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import React, { useRef, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Play, Loader2, Zap, MessageSquare, Settings as SettingsIcon, Wand2 } from 'lucide-react';
@@ -85,10 +86,80 @@ export default function MonacoCodeEditor() {
     aiEnabled
   );
 
-  // Load AI enabled state on mount
+// Load AI enabled state and Initialize Socket on mount
+// Load AI enabled state on mount
   useEffect(() => {
     setAiEnabled(aiSettings.get('autocomplete'));
   }, []);
+
+  // --- Socket Logic (Merged & Cleaned) ---
+  useEffect(() => {
+    const init = async () => {
+      socketRef.current = await initSocket();
+      
+      let loadingToast = null;
+
+      socketRef.current.on('connect_error', (err) => {
+        if (!loadingToast) {
+          loadingToast = toast.loading('Waking up the server... this may take 30-50 seconds.', {
+            id: 'wakeup-toast'
+          });
+        }
+      });
+
+      socketRef.current.on('connect', () => {
+        if (loadingToast) {
+          toast.dismiss('wakeup-toast');
+          toast.success('Connected to CoLab Server!');
+          loadingToast = null;
+        }
+        const username = sessionStorage.getItem('username') || 'Anonymous';
+        socketRef.current.emit('join', { roomId, username });
+      });
+
+      socketRef.current.on('joined', ({ clients, username, socketId }) => {
+        if (socketRef.current.id !== socketId) {
+          toast.custom(
+            (t) => <JoinNotification username={username} />,
+            { duration: 4000, position: 'top-right' }
+          );
+        }
+        setUsers(clients);
+
+        if (socketRef.current.id !== socketId && codeRef.current) {
+          socketRef.current.emit('sync-code', { code: codeRef.current, socketId });
+        }
+        if (socketRef.current.id !== socketId) {
+          socketRef.current.emit('sync-language', { language, socketId });
+        }
+      });
+
+      socketRef.current.on('disconnected', ({ clients }) => {
+        setUsers(clients);
+      });
+
+      socketRef.current.on('code-changed', ({ code: newCode }) => {
+        if (newCode !== null && newCode !== codeRef.current) {
+          isRemoteUpdate.current = true;
+          codeRef.current = newCode;
+          setCode(newCode);
+        }
+      });
+
+      socketRef.current.on('language-changed', ({ language: newLanguage }) => {
+        if (newLanguage) setLanguage(newLanguage);
+      });
+    };
+
+    init();
+    
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+      toast.dismiss('wakeup-toast'); 
+    };
+  }, [roomId, navigate, language]); // Added language to dependency array
 
   // --- Theme Definition & Sync ---
   const handleEditorDidMount = (editor, monaco) => {
