@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast';
 import React, { useRef, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Play, Loader2, Zap, MessageSquare, Settings as SettingsIcon, Wand2 } from 'lucide-react';
